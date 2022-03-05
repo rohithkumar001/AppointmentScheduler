@@ -1,0 +1,35 @@
+<div id="reschedule-appointment-page__container">
+  <h4>Your appointment with <strong>Mr.Paul</strong> is scheduled at:</h4>
+
+  <app-appointment-box-date
+    [reservationDate]="reservationDate"
+    [loading]="loading"
+  ></app-appointment-box-date>
+
+  <div class="reschedule-appointment-page__container--text">
+    <h3><strong>Want to schedule a meeting?</strong></h3>
+  </div>
+
+  <app-appointment-calendar (selectedDate)="setSelectedDate($event)"></app-appointment-calendar>
+
+  <div *ngIf="selectedDate" class="reschedule-appointment-page__container--reschedule-message">
+    <h2>
+      <strong>Reschedule event:</strong>
+    </h2>
+    <p>Click the button to confirm</p>
+
+    <button mat-raised-button color="primary" class="confirm-selected-date" (click)="confirmBookAction()">
+      {{ selectedDate.start | date: "long" }}
+    </button>
+  </div>
+  <div>
+      <p>Duration:</p>
+      <select>
+        <option>15mins</option>
+        <option>30mins</option>
+        <option>45mins</option>
+        <option>1hr</option>
+      </select>
+    <br><br><button routerlink="/appointments/booked">Confirm with client</button>
+  </div>
+</div>

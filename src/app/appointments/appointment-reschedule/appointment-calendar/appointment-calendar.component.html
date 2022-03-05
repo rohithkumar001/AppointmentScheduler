@@ -1,0 +1,63 @@
+<div class="{{ cn.root }}" *ngIf="calendarSlots$ | async as calendarSlots">
+  <div class="{{ cn.navigation }}">
+    <button
+      mat-icon-button
+      color="primary"
+      class="{{ cn.navigationButton }}"
+      [disabled]="isBeforeToday"
+      (click)="retrieveWeek('prev')"
+    >
+      <img src="../../../assets/icons/chevron-left.svg" width="16" alt="" />
+    </button>
+
+    <button
+      mat-icon-button
+      color="primary"
+      class="{{ cn.navigationButton }}"
+      (click)="retrieveWeek('next')"
+    >
+      <img src="../../../assets/icons/chevron-right.svg" width="16" alt="" />
+    </button>
+  </div>
+
+  <table [ngClass]="{ minimized: isMinimized }">
+    <ng-container *ngIf="daysOfWeek$ | async as daysOfWeek">
+      <thead>
+        <tr>
+          <th *ngFor="let day of daysOfWeek">
+            <p class="day-header">{{ day | dayPipe }}</p>
+            <p class="sub-day-header">{{ day | date: "MMM d" }}</p>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let bookSlotsForDay of calendarSlots">
+          <td>
+            <tr *ngFor="let bookSlot of bookSlotsForDay">
+              <button
+                mat-stroked-button
+                color="primary"
+                disabled="{{ bookSlot.isTaken }}"
+                (click)="selectBookingDay(bookSlot)"
+              >
+                <span>
+                  {{ bookSlot.start | date: "HH:mm" }}
+                </span>
+              </button>
+            </tr>
+          </td>
+        </ng-container>
+      </tbody>
+    </ng-container>
+  </table>
+  <div class="{{ cn.expandButton }}">
+    <div *ngIf="isMinimized" (click)="toggleTableVisibility()">
+      <span> See more hours </span>
+      <img src="../../../assets/icons/chevron-down.svg" width="16" alt="" />
+    </div>
+    <div *ngIf="!isMinimized" (click)="toggleTableVisibility()">
+      <span> See less </span>
+      <img src="../../../assets/icons/chevron-up.svg" width="16" alt="" />
+    </div>
+  </div>
+</div>
